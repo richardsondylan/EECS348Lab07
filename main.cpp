@@ -8,65 +8,17 @@ class Matrix {
         int data[SIZE][SIZE]; // 2D array for matrix data (using int for simplicity)
     public:
         // 1. Read values from stdin into a matrix
-        void readFromStdin(){
-            for (int i = 0; i < SIZE; ++i) {
-                for (int j = 0; j < SIZE; ++j) {
-                    cout << "Enter value for element [" << i << "][" << j << "]: ";
-                    cin >> data[i][j];
-                }
-            }
-        }
+        void readFromStdin();
         // 2. Display a matrix
-        void display() const{
-            for (int i = 0; i < SIZE; ++i) {
-                for (int j = 0; j < SIZE; ++j) {
-                    cout << data[i][j] << " ";
-                }
-                cout << endl;
-            }
-        }
+        void display() const;
         // 3. Add two matrices (operator overloading for +)
-        Matrix operator+(const Matrix& other) const{
-            Matrix newMatrix;
-            for(int i = 0; i < SIZE; ++i) {
-                for (int j = 0; j < SIZE; ++j) {
-                    newMatrix.data[i][j] = this->data[i][j] + other.data[i][j];
-                }
-            }
-
-            return newMatrix;
-        }
+        Matrix operator+(const Matrix& other) const;
         // 4. Multiply two matrices (operator overloading for *)
-        Matrix operator*(const Matrix& other) const{
-            Matrix result;
-            for (int i = 0; i < SIZE; ++i) {
-                for (int j = 0; j < SIZE; ++j) {
-                    result.data[i][j] = 0; // Initialize result element
-                    for (int k = 0; k < SIZE; ++k) {
-                        result.data[i][j] += data[i][k] * other.data[k][j];
-                    }
-                }
-            }
-            return result;
-        }
+        Matrix operator*(const Matrix& other) const;
         // 5. Compute the sum of matrix diagonal elements
-        int sumOfDiagonals() const{
-            int sum = 0;
-            for (int i = 0; i < SIZE; ++i) {
-                sum += data[i][i];
-            }
-            return sum;
-        }
+        int sumOfDiagonals() const;
         // 6. Swap matrix rows
-        void swapRows(int row1, int row2){
-            if (row1 >= 0 && row1 < SIZE && row2 >= 0 && row2 < SIZE) {
-                for (int j = 0; j < SIZE; ++j) {
-                    swap(data[row1][j], data[row2][j]);
-                }
-            } else {
-                cout << "Invalid row indices for swapping." << endl;
-            }
-        }
+        void swapRows(int row1, int row2);
 };
 
 
@@ -107,4 +59,65 @@ int main() {
     mat1.display();
 
     return 0;
+}
+
+void Matrix::readFromStdin(){
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            cout << "Enter value for element [" << i << "][" << j << "]: ";
+            cin >> data[i][j];
+        }
+    }
+}
+
+
+void Matrix::display() const{
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            cout << data[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+Matrix Matrix::operator+(const Matrix& other) const{
+    Matrix newMatrix;
+    for(int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            newMatrix.data[i][j] = this->data[i][j] + other.data[i][j];
+        }
+    }
+
+    return newMatrix;
+}
+
+Matrix Matrix::operator*(const Matrix& other) const{
+    Matrix result;
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            result.data[i][j] = 0; // Initialize result element
+            for (int k = 0; k < SIZE; ++k) {
+                result.data[i][j] += data[i][k] * other.data[k][j];
+            }
+        }
+    }
+    return result;
+}
+
+void Matrix::swapRows(int row1, int row2){
+    if (row1 >= 0 && row1 < SIZE && row2 >= 0 && row2 < SIZE) {
+        for (int j = 0; j < SIZE; ++j) {
+            std::swap(data[row1][j], data[row2][j]);
+        }
+    } else {
+        std::cout << "Invalid row indices for swapping." << std::endl;
+    }
+}
+
+int Matrix::sumOfDiagonals() const{
+    int sum = 0;
+    for (int i = 0; i < SIZE; ++i) {
+        sum += data[i][i];
+    }
+    return sum;
 }
