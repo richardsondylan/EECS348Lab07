@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 const int SIZE = 4; // Global variable for matrix size
 
@@ -9,6 +10,16 @@ class Matrix {
     public:
         // 1. Read values from stdin into a matrix
         void readFromStdin();
+
+        Matrix(){};
+
+        Matrix(int data[SIZE][SIZE]) {
+            for (int i = 0; i < SIZE; ++i) {
+                for (int j = 0; j < SIZE; ++j) {
+                    this->data[i][j] = data[i][j];
+                }
+            }
+        }
         // 2. Display a matrix
         void display() const;
         // 3. Add two matrices (operator overloading for +)
@@ -21,9 +32,7 @@ class Matrix {
         void swapRows(int row1, int row2);
 };
 
-
-int main() {
-
+int main_debug(){
 
     Matrix mat1;
     cout << "Enter values for Matrix 1:" << endl;
@@ -61,6 +70,65 @@ int main() {
     return 0;
 }
 
+int main() {
+
+    string filePath = "myFile.txt"; // Change this to your desired file path
+
+
+    ifstream file(filePath);
+    if (!file.is_open()) {
+        cerr << "Error opening file: " << filePath << endl;
+        return 1;   
+    }
+
+    int firstMatrixData[SIZE][SIZE];
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            if (!(file >> firstMatrixData[i][j])) {
+                cerr << "Error reading data for the first matrix." << endl;
+                return 1;
+            }
+        }
+    }
+
+    int secondMatrixData[SIZE][SIZE];
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            if (!(file >> secondMatrixData[i][j])) {
+                cerr << "Error reading data for the second matrix." << endl;
+                return 1;
+            }
+        }
+    }
+
+    Matrix mat1(firstMatrixData);
+    Matrix mat2(secondMatrixData);
+    cout << "Matrix 1:" << endl;
+    mat1.display();
+    cout << "Matrix 2:" << endl;
+    mat2.display();
+
+    Matrix sum = mat1 + mat2;
+    cout << "Sum of matrices:" << endl;
+    sum.display();
+
+    
+    Matrix product = mat1 * mat2;
+    cout << "Product of matrices:" << endl;
+    product.display();
+
+
+    cout << "Sum of diagonals of Matrix 1: " << mat1.sumOfDiagonals() << endl;
+    mat1.swapRows(0, 2);
+
+
+    cout << "Matrix 1 after swapping rows:" << endl;
+    mat1.display();
+
+    return 0;
+}
+
+
 void Matrix::readFromStdin(){
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
@@ -69,6 +137,7 @@ void Matrix::readFromStdin(){
         }
     }
 }
+
 
 
 void Matrix::display() const{
