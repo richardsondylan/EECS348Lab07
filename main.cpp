@@ -101,6 +101,8 @@ int main() {
         }
     }
 
+    file.close();
+
     Matrix mat1(firstMatrixData);
     Matrix mat2(secondMatrixData);
     cout << "Matrix 1:" << endl;
